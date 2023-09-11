@@ -23,6 +23,11 @@ class EmpleadosController extends Controller
       ->with('dias',$dias)
       ->with('nomina',$nomina);
     }
+
+    public function salir(){
+
+        return "Salir";
+    }
     public function mensaje(){
 
       return "Hola trabajador";

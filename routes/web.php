@@ -19,6 +19,8 @@ Route::get('nomina/{diast}/{pago}',[EmpleadosController::class,'nomina']);
 
 // enviar variables a nuestra vista
 Route::get('muestrasaludo/{nombre}/{dias}',[EmpleadosController::class,'saludo']);
+// le puese el nombre de salir para que lo detecte la vista
+Route::get('salir',[EmpleadosController::class,'salir'])->name('salir');
 
 Route::get('/', function () {
     return view('welcome');
