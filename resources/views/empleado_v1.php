@@ -9,6 +9,6 @@
     <body>
     <h1>Empresa PATITO.com</h1>
     <br>
-    Nombre del empleado: <?php echo "$nombre trabajo: $dias";?>
+    Nombre del empleado: <?php echo "$nombre trabajo: $dias se le pago: $nomina";?>
     </body>
 </html>

@@ -9,7 +9,19 @@ class EmpleadosController extends Controller
     //
     public function saludo($nombre,$dias){
 
-      return view('empleado',compact('nombre','dias'));
+        $pago = 100;
+        $nomina = $dias * $pago;
+
+
+            // tres formas de mandar variables
+
+      //return view('empleado',compact('nombre','dias'));
+      //return view('empleado',['nombrex' =>$nombre,'dias'=>$dias]);
+      // otra manera de enviar variables a una vista
+      return view('empleado')
+      ->with('nombre',$nombre)
+      ->with('dias',$dias)
+      ->with('nomina',$nomina);
     }
     public function mensaje(){
 
