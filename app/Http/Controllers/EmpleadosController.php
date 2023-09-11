@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 class EmpleadosController extends Controller
 {
     //
+    public function vb(){
+
+        return view('vistaboostrap');
+    }
+
     public function saludo($nombre,$dias){
 
         $pago = 100;
