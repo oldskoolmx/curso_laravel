@@ -8,6 +8,17 @@ class EmpleadosController extends Controller
 {
     //
 
+    public function altaempleado(){
+
+        return view('altaempleado');
+    }
+
+    // hay que poner Request para mandar los datos a las variables
+    public function guardarempleado(Request $request){
+
+        //return view('altaempleado');
+        return $request;
+    }
     public function vb(){
 
         return view('vistaboostrap');
