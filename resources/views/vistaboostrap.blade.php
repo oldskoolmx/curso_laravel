@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <h1>Hola vista BootStrap</h1>
+    <h1>Sistema de Control de Nomina</h1>
 
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -55,7 +55,9 @@
             </div>
         </div>
     </nav>
-
+    <div id="contenido">
+        @yield('contenido')
+    </div>
 
 </body>
 
