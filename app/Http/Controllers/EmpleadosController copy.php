@@ -26,16 +26,11 @@ class EmpleadosController extends Controller
         $sexo = $request->sexo;
         // para hacer validaciones, reglas de validacion
         $this->validate($request,[
-            // con esta regla se pueden agregar cualquier letra de la A a la Z
-            // 'ide' => 'required|regex:/^[A-Z]{3}[-][0-9]{5}$/',
-            'ide' => 'required|regex:/^[E][M][P][-][0-9]{5}$/',
-            'nombre' => 'required|regex:/^[A-Z][A-Z,a-z, ,á,é,í,ó,ú,ü]+$/',
-            // si le pongo asterisco en lugar del mas, es para indicar que lleva un numero o no antes del
-            //punto decimal
-            //'apellido' => 'required|regex:/^[0-9]+[.][0-9]{2}$/',
-            'apellido' => 'required|regex:/^[0-9]*[.][0-9]{2}$/',
+            'ide' => 'required|numeric',
+            'nombre' => 'required|alpha',
+            'apellido' => 'required|alpha',
             'email' => 'required|email',
-            'celular' => 'required|regex:/^[0-9]{10}$/'
+            'celular' => 'required|integer'
         ]);
 
        echo "TODO CORRECTO";
