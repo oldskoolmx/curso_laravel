@@ -29,6 +29,8 @@ Route::get('vista2',[EmpleadosController::class,'vista2'])->name('vista2');
 Route::get('altaempleado',[EmpleadosController::class,'altaempleado'])->name('altaempleado');
 Route::post('guardarempleado',[EmpleadosController::class,'guardarempleado'])->name('guardarempleado');
 
+Route::get('eloquent',[EmpleadosController::class,'eloquent'])->name('eloquent');
+
 Route::get('/', function () {
     return view('welcome');
 });

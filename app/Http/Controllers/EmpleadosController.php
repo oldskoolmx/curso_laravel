@@ -3,10 +3,70 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\empleados;
+use App\Models\departamentos;
 
 class EmpleadosController extends Controller
 {
     //
+
+    public function eloquent(){
+        // realizamos una consulta para ver la conexion a la BD
+        // es como si ejecutara un select
+        //$consulta = empleados::all();
+
+        // un nuevo registro sobre el modelo empleados
+       /*  $empleados = new empleados;
+        $empleados->ide=6;
+        $empleados->nombre="gustavo1";
+        $empleados->apellido="barrios1";
+        $empleados->email="merolmen1@gmail.com";
+        $empleados->celular="5522935971";
+        $empleados->sexo="M";
+        $empleados->descripcion="Prueba de insercion";
+        $empleados->idd=1;
+        $empleados->save(); */
+
+        //otro ejemplo de insertar registros, podemos hacer insercion masiva
+      /*   $empleados = empleados::create([
+            'ide'=>4,'nombre'=>"Paty",'apellido'=>"Mendez",'email'=>"paty@gmail.com",
+            'celular'=>"5582226400",'sexo'=>"F",'descripcion'=>"prueba",'idd'=>1
+        ]);
+
+        return "Operacion Realizada";
+ */
+
+
+        // para actualizar un registro en especifico, este caso el registro con id 6
+       /*  $empleados = empleados::find(6);
+        $empleados->nombre = "Dulce";
+        $empleados->apellido = "Montiel";
+        $empleados->save(); */
+
+        //otro metodo para modificar con una condicion
+       /*  empleados::where('sexo','M')
+        ->where('email','merolmen@gmail.com')
+        ->update(['nombre'=>'francisco','celular'=>'5555555555']);
+
+        return "Modificaion Realizada"; */
+
+        // eliminacion de un registro
+
+        //empleados::destroy(4);
+
+        //otra forma de eliminar un registro
+
+        /* $empleados = empleados::find(8);
+        $empleados->delete();
+        return "Eliminacion Realizada"; */
+        //otra forma de eliminar con una condicion
+
+        $empleados=empleados::where('sexo','F')
+        ->where('celular','5582226400')
+        ->delete();
+
+        return "Eliminacion Realizada";
+    }
 
     public function altaempleado(){
 
