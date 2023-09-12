@@ -10,24 +10,36 @@
 
             <div class="well">
                 <div class="form-group">
-                    <label for="dni">Clave empleado:</label>
-                    <input type="text" name="ide" id="ide" class="form-control" placeholder="Clave empleado"
-                        tabindex="5">
+                    <label for="dni">Clave empleado:
+                        @if ($errors->first('ide'))
+                            <p class="text-danger">{{ $errors->first('ide') }}</p>
+                        @endif
+                    </label>
+                    <input type="text" name="ide" id="ide" value="{{ old('ide') }}" class="form-control"
+                        placeholder="Clave empleado" tabindex="5">
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6">
                         <div class="form-group">
-                            <label for="nombre">Nombre:</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre"
-                                tabindex="1">
+                            <label for="nombre">Nombre:
+                                @if ($errors->first('nombre'))
+                                    <p class="text-danger">{{ $errors->first('nombre') }}</p>
+                                @endif
+                            </label>
+                            <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}"
+                                class="form-control" placeholder="Nombre" tabindex="1">
                         </div>
                     </div>
 
                     <div class="col-xs-6 col-sm-6 col-md-6">
                         <div class="form-group">
-                            <label for="apellido">Apellido:</label>
-                            <input type="text" name="apellido" id="apellido" class="form-control" placeholder="Apellido"
-                                tabindex="2">
+                            <label for="apellido">Apellido:
+                                @if ($errors->first('apellido'))
+                                    <p class="text-danger">{{ $errors->first('apellido') }}</p>
+                                @endif
+                            </label>
+                            <input type="text" name="apellido" id="apellido" value="{{ old('apellido') }}"
+                                class="form-control" placeholder="Apellido" tabindex="2">
                         </div>
                     </div>
                 </div>
@@ -36,17 +48,25 @@
 
                     <div class="col-xs-6 col-sm-6 col-md-6">
                         <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Email"
-                                tabindex="4">
+                            <label for="email">Email:
+                                @if ($errors->first('email'))
+                                    <p class="text-danger">{{ $errors->first('email') }}</p>
+                                @endif
+                            </label>
+                            <input type="text" name="email" id="email" value="{{ old('email') }}"
+                                class="form-control" placeholder="Email" tabindex="4">
                         </div>
                     </div>
 
                     <div class="col-xs-6 col-sm-6 col-md-6">
                         <div class="form-group">
-                            <label for="celular">Celular:</label>
-                            <input type="text" name="celular" id="celular" class="form-control" placeholder="Celular"
-                                tabindex="3">
+                            <label for="celular">Celular:
+                                @if ($errors->first('celular'))
+                                    <p class="text-danger">{{ $errors->first('celular') }}</p>
+                                @endif
+                            </label>
+                            <input type="text" name="celular" id="celular" value="{{ old('celular') }}"
+                                class="form-control" placeholder="Celular" tabindex="3">
                         </div>
                     </div>
 

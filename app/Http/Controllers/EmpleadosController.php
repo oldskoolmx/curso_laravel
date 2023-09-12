@@ -17,7 +17,23 @@ class EmpleadosController extends Controller
     public function guardarempleado(Request $request){
 
         //return view('altaempleado');
-        return $request;
+        // se envia en forma de arreglo toda la info
+        //return $request;
+        // enviar de otra forma la informacion como tipo debug
+        //dd($request);
+                   // este es el nombre del input
+        $nombre = $request->nombre;
+        $sexo = $request->sexo;
+        // para hacer validaciones, reglas de validacion
+        $this->validate($request,[
+            'ide' => 'required|numeric',
+            'nombre' => 'required|alpha',
+            'apellido' => 'required|alpha',
+            'email' => 'required|email',
+            'celular' => 'required|integer'
+        ]);
+
+       echo "TODO CORRECTO";
     }
     public function vb(){
 
