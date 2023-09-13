@@ -61,11 +61,39 @@ class EmpleadosController extends Controller
         return "Eliminacion Realizada"; */
         //otra forma de eliminar con una condicion
 
-        $empleados=empleados::where('sexo','F')
+       /*  $empleados=empleados::where('sexo','F')
         ->where('celular','5582226400')
-        ->delete();
+        ->delete(); */
 
-        return "Eliminacion Realizada";
+        /* $empleados = empleados::find(6);
+        $empleados->delete();
+        return "Eliminacion Realizada"; */
+
+       /*  $consulta = empleados::all();
+        return $consulta; */
+
+        //para que me muestre todos los registros incluyendo los borrados logicos
+       /*  $consulta = empleados::withTrashed()->get();
+        return $consulta; */
+
+        // para ver unicamente los registros borrados logicos
+        //$consulta = empleados::onlyTrashed()->get();
+
+        //consulta de los eliminados logicos con una condicion
+       /*  $consulta = empleados::onlyTrashed()
+        ->where('sexo','M')
+        ->get(); */
+
+
+        // para restaurar un resgistro borrado logicamente
+        // empleados::withTrashed()->where('ide',6)->restore();
+        // return "Restauracion Realizada";
+
+        //para borrar un registro permanentemente
+        $consulta = empleados::find(6)->forceDelete();
+        $consulta = empleados::all();
+        return $consulta;
+
     }
 
     public function altaempleado(){
