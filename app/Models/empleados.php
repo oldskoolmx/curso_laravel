@@ -11,5 +11,6 @@ class empleados extends Model
     use HasFactory;
     use SoftDeletes;
     protected $primaryKey = 'ide';
-    protected $fillable = ['idd','nombre','apellido','sexo','idd','descripcion','email','celular'];
+    protected $fillable = ['idd','nombre','apellido','sexo','idd','descripcion',
+                            'email','celular','edad','salario'];
 }

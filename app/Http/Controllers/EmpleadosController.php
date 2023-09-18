@@ -28,13 +28,14 @@ class EmpleadosController extends Controller
         $empleados->save(); */
 
         //otro ejemplo de insertar registros, podemos hacer insercion masiva
-      /*   $empleados = empleados::create([
+      /*  $empleados = empleados::create([
             'ide'=>4,'nombre'=>"Paty",'apellido'=>"Mendez",'email'=>"paty@gmail.com",
-            'celular'=>"5582226400",'sexo'=>"F",'descripcion'=>"prueba",'idd'=>1
+            'celular'=>"5582226400",'sexo'=>"F",'descripcion'=>"prueba",'edad'=> 28,'salario'=>55000,'idd'=>1
         ]);
 
-        return "Operacion Realizada";
- */
+        return "Operacion Realizada"; */
+
+
 
 
         // para actualizar un registro en especifico, este caso el registro con id 6
@@ -90,8 +91,28 @@ class EmpleadosController extends Controller
         // return "Restauracion Realizada";
 
         //para borrar un registro permanentemente
-        $consulta = empleados::find(6)->forceDelete();
-        $consulta = empleados::all();
+       // $consulta = empleados::find(6)->forceDelete();
+        //$consulta = empleados::all();
+        //$consulta = empleados::where('sexo','M')->get();
+        // una consulta entre rangos de edad
+        /* $consulta = empleados::where('edad','>=',20)
+        ->where('edad','<=',25)
+        ->get(); */
+
+        // consulta para rangos
+        $consulta = empleados::whereBetween('edad',[20,30])->get();
+        
+        // consulta solo de esos tres ide
+        $consulta = empleados::whereIn('ide',[13,14,15])
+            ->orderBy('nombre','desc')
+            ->get();
+
+        $consulta = empleados::where('edad','>=',20)
+            ->where('edad','<=',30)
+            // con take solo toma los 2 primeros registros de la consulta
+            ->take(2)
+            ->get();    
+        
         return $consulta;
 
     }
