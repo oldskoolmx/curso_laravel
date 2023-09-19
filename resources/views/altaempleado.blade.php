@@ -15,8 +15,8 @@
                             <p class="text-danger">{{ $errors->first('ide') }}</p>
                         @endif
                     </label>
-                    <input type="text" name="ide" id="ide" value="{{ old('ide') }}" class="form-control"
-                        placeholder="Clave empleado" tabindex="5">
+                    <input type="text" name="ide" id="ide" value="{{ $idsigue }}" readonly='readonly'
+                        class="form-control" placeholder="Clave empleado" tabindex="5">
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -93,9 +93,12 @@
                             <label for="dni">Departamento:</label>
                             <select name='idd' class="form-select">
                                 <option selected="">Selecciona un departamento</option>
-                                <option value="1">Compras</option>
-                                <option value="2">Ventas</option>
-                                <option value="3">Producción</option>
+                                {{-- para hacer el select dinamico  --}}
+                                @foreach ($depas as $depa)
+                                    <option value="{{ $depa->idd }}">{{ $depa->nombre }}</option>
+                                @endforeach
+                                {{-- <option value="2">Ventas</option>
+                                <option value="3">Producción</option> --}}
                             </select>
                         </div>
 
@@ -103,12 +106,13 @@
                 </div>
                 <div class="form-group">
                     <label for="dni">Descripción:</label>
-                    <textarea name="detalle" id="detalle" class="form-control" tabindex="5">
+                    <textarea name="descripcion" id="descripcion" class="form-control" tabindex="5">
             </textarea>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"><input type="submit" value="Guardar"
-                            class="btn btn-danger btn-block btn-lg" tabindex="7" title="Guardar datos ingresados"></div>
+                            class="btn btn-danger btn-block btn-lg" tabindex="7" title="Guardar datos ingresados">
+                    </div>
                 </div>
         </form>
     @stop

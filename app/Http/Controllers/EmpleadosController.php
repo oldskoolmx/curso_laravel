@@ -10,6 +10,74 @@ class EmpleadosController extends Controller
 {
     //
 
+    public function altaempleado(){
+
+        // consulta para saber cual es el ultimo id en la tabla
+        $consulta = empleados::orderBy('ide','desc')
+                                ->take(1)->get();
+
+               // consulta para sumarle una posicion al ultimo id en la base de datos
+        $cuantos = count($consulta);
+        if ($cuantos == 0) {
+            # code...
+            $idesigue=1;
+        } else {
+
+            $idesigue = $consulta[0]->ide + 1;
+        }
+
+        // consulta para sacar todos los departamentos de la bd
+        $departamentos = departamentos::all();
+        $departamentos = departamentos::orderBy('nombre')->get();
+        //return $idesigue;
+          // mando llamar a la vista altaempleado y el asigno el idesigue con el valor
+          // de la variable $idesigue
+        return view('altaempleado')
+        ->with('idsigue',$idesigue)
+        ->with('depas',$departamentos);
+    }
+
+    // hay que poner Request para mandar los datos a las variables
+    public function guardarempleado(Request $request){
+
+        //return view('altaempleado');
+        // se envia en forma de arreglo toda la info
+        //return $request;
+        // enviar de otra forma la informacion como tipo debug
+        //dd($request);
+                   // este es el nombre del input
+        // $nombre = $request->nombre;
+        // $sexo = $request->sexo;
+        // para hacer validaciones, reglas de validacion
+        $this->validate($request,[
+            // con esta regla se pueden agregar cualquier letra de la A a la Z
+            // 'ide' => 'required|regex:/^[A-Z]{3}[-][0-9]{5}$/',
+            //'ide' => 'required|regex:/^[E][M][P][-][0-9]{5}$/',
+            'nombre' => 'required|regex:/^[A-Z][A-Z,a-z, ,á,é,í,ó,ú,ü]+$/',
+            // si le pongo asterisco en lugar del mas, es para indicar que lleva un numero o no antes del
+            //punto decimal
+            //'apellido' => 'required|regex:/^[0-9]+[.][0-9]{2}$/',
+            //'apellido' => 'required|regex:/^[0-9]*[.][0-9]{2}$/',
+            'apellido' => 'required|regex:/^[A-Z][A-Z,a-z, ,á,é,í,ó,ú,ü]+$/',
+            'email' => 'required|email',
+            'celular' => 'required|regex:/^[0-9]{10}$/'
+        ]);
+
+        $empleados = new empleados;
+        $empleados->ide=$request->ide;
+        $empleados->nombre=$request->nombre;
+        $empleados->apellido=$request->apellido;
+        $empleados->email=$request->email;
+        $empleados->celular=$request->celular;
+        $empleados->sexo=$request->sexo;
+        $empleados->descripcion=$request->descripcion;
+        $empleados->idd=$request->idd;
+        $empleados->save();
+
+       return view('mensajes')
+       ->with('proceso',"ALTA DE EMPLEADOS")
+       ->with('mensaje',"El empleado $request->nombre $request->apellido ha sido dado de alta correctamente");
+    }
     public function eloquent(){
         // realizamos una consulta para ver la conexion a la BD
         // es como si ejecutara un select
@@ -101,7 +169,7 @@ class EmpleadosController extends Controller
 
         // consulta para rangos
         $consulta = empleados::whereBetween('edad',[20,30])->get();
-        
+
         // consulta solo de esos tres ide
         $consulta = empleados::whereIn('ide',[13,14,15])
             ->orderBy('nombre','desc')
@@ -111,13 +179,48 @@ class EmpleadosController extends Controller
             ->where('edad','<=',30)
             // con take solo toma los 2 primeros registros de la consulta
             ->take(2)
-            ->get();    
-        
+            ->get();
+
+        $consulta = empleados::select(['nombre','apellido','edad'])
+                            ->where('edad','>=',30)
+                            ->get();
+        $consulta = empleados::select(['nombre','apellido','edad'])
+                            ->where('apellido','LIKE','%rre%')
+                            ->get();
+        $consulta = empleados::where('sexo','F')->sum('salario');
+
+        // consulta con agrupamiento
+        $consulta = empleados::groupBy('sexo')
+                    ->selectRaw('sexo,sum(salario) as salioT')
+                    ->get();
+
+        $consulta = empleados::groupBy('sexo')
+                    ->selectRaw('sexo,count(*) as Personas')
+                    ->get();
+
+        /* SQL = "SELECT e.ide, e.nombre, d.nombre AS departamento, e.edad
+        FROM empleados AS e
+        INNER JOIN departamentos AS d ON d.idd = e.idd
+        WHERE e.edad >= 30" */
+
+            //consulta en eloquent
+        $consulta = empleados::join('departamentos','empleados.idd','=','departamentos.idd')
+                ->select('empleados.ide','empleados.nombre','departamentos.nombre as depa','empleados.edad')
+                ->where('empleados.edad','>=',30)
+                ->get();
+
+                    // ejemplo con and o or
+        $consulta = empleados::where('edad','>=',40)
+                ->orwhere('sexo','F')
+                ->get();
+
+        //$cuantos = count($consulta);
+
         return $consulta;
 
     }
 
-    public function altaempleado(){
+   /*  public function altaempleado(){
 
         return view('altaempleado');
     }
@@ -148,7 +251,7 @@ class EmpleadosController extends Controller
         ]);
 
        echo "TODO CORRECTO";
-    }
+    } */
     public function vb(){
 
         return view('vistaboostrap');
