@@ -10,6 +10,16 @@ class EmpleadosController extends Controller
 {
     //
 
+    public function reporteempleados(){
+
+        $consulta = empleados::join('departamentos','empleados.idd','=','departamentos.idd')
+                ->select('empleados.ide','empleados.nombre','empleados.apellido','departamentos.nombre as depa',
+                'empleados.email')
+                ->orderBy('empleados.nombre')
+                 ->get();
+        return view('reporteempleados')->with('consulta',$consulta);
+    }
+
     public function altaempleado(){
 
         // consulta para saber cual es el ultimo id en la tabla

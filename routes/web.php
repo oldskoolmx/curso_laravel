@@ -30,6 +30,8 @@ Route::get('altaempleado',[EmpleadosController::class,'altaempleado'])->name('al
 Route::post('guardarempleado',[EmpleadosController::class,'guardarempleado'])->name('guardarempleado');
 
 Route::get('eloquent',[EmpleadosController::class,'eloquent'])->name('eloquent');
+Route::get('reporteempleados',[EmpleadosController::class,'reporteempleados'])->name('reporteempleados');
+
 
 Route::get('/', function () {
     return view('welcome');
