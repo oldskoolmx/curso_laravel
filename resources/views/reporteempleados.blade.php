@@ -30,7 +30,20 @@
                         <td>{{ $c->email }}</td>
                         <td>{{ $c->depa }}</td>
                         <td><button type="button" class="btn btn-info">Modificar</button>
-                            <button type="button" class="btn btn-danger">Eliminar</button>
+
+                            {{-- creamos una condicion para activar los registros borrados logicamente  anteriormente --}}
+                            @if ($c->deleted_at)
+                                <a href="{{ route('activarempleado', ['ide' => $c->ide]) }}">
+                                    <button type="button" class="btn btn-warning">Activar</button>
+                                </a>
+                                <a href="{{ route('borrarempleado', ['ide' => $c->ide]) }}">
+                                    <button type="button" class="btn btn-secondary">Borrar</button>
+                                </a>
+                            @else
+                                <a href="{{ route('desactivaempleado', ['ide' => $c->ide]) }}">
+                                    <button type="button" class="btn btn-danger">Desactivar</button>
+                                </a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

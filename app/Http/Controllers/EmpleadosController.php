@@ -5,16 +5,73 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\empleados;
 use App\Models\departamentos;
+use App\Models\nominas;
 
 class EmpleadosController extends Controller
 {
     //
 
+        // mandamos el $ide a desactivar o borrar
+    public function desactivaempleado($ide){
+
+        $empleados = empleados::find($ide);
+        $empleados->delete();
+        return view('mensajes')
+        ->with('proceso',"DESACTIVAR EMPLEADO")
+        ->with('mensaje',"El empleado ha sido desactivado correctamente")
+        ->with('error',1);
+
+
+    }
+    public function activarempleado($ide){
+
+        $empleados = empleados::withTrashed()->where('ide',$ide)->restore();
+        return view('mensajes')
+        ->with('proceso',"ACTIVAR EMPLEADO")
+        ->with('mensaje',"El empleado ha sido activado correctamente")
+        ->with('error',1);
+
+
+    }
+    public function borrarempleado($ide){
+
+        //para hacer una consulta a la tabla de nominas
+        $buscarempleado=nominas::where('ide',$ide)->get();
+        $cuantos = count($buscarempleado);
+        // si no encuentra empleados en la tabla nomimas que los borre
+        if ($cuantos==0) {
+            # code...
+
+            // que busque el registro que esta eliminado logicamente para borrarlo definitivamente
+            $empleados = empleados::withTrashed()->find($ide)->forceDelete();
+            return view('mensajes')
+            ->with('proceso',"BORRAR EMPLEADO")
+            ->with('mensaje',"El empleado ha sido borrado del sistema correctamente")
+            // mandamos una variable llamada error con un 1 para cambiar el color del texto
+            ->with('error',1);
+        } else {
+            return view('mensajes')
+            ->with('proceso',"BORRAR EMPLEADO")
+            ->with('mensaje',"El empleado no se puede borrar, ya que tiene registros de nomina")
+            ->with('error',0);
+            # code...
+        }
+
+
+    }
     public function reporteempleados(){
 
-        $consulta = empleados::join('departamentos','empleados.idd','=','departamentos.idd')
+      // devuelve todos los registros menos los eliminados logicamente
+        /*  $consulta = empleados::join('departamentos','empleados.idd','=','departamentos.idd')
                 ->select('empleados.ide','empleados.nombre','empleados.apellido','departamentos.nombre as depa',
                 'empleados.email')
+                ->orderBy('empleados.nombre')
+                 ->get(); */
+
+
+        $consulta = empleados::withTrashed()->join('departamentos','empleados.idd','=','departamentos.idd')
+                ->select('empleados.ide','empleados.nombre','empleados.apellido','departamentos.nombre as depa',
+                'empleados.email','empleados.deleted_at')
                 ->orderBy('empleados.nombre')
                  ->get();
         return view('reporteempleados')->with('consulta',$consulta);
@@ -86,7 +143,8 @@ class EmpleadosController extends Controller
 
        return view('mensajes')
        ->with('proceso',"ALTA DE EMPLEADOS")
-       ->with('mensaje',"El empleado $request->nombre $request->apellido ha sido dado de alta correctamente");
+       ->with('mensaje',"El empleado $request->nombre $request->apellido ha sido dado de alta correctamente")
+       ->with('error',1);
     }
     public function eloquent(){
         // realizamos una consulta para ver la conexion a la BD

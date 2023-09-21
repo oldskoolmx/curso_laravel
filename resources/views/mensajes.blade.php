@@ -5,7 +5,11 @@
     <div class="container">
         <h1>PROCESO {{ $proceso }}</h1>
         <br>
-        <div class="alert alert-success">{{ $mensaje }}</div>
+        @if ($error == 1)
+            <div class="alert alert-success">{{ $mensaje }}</div>
+        @else
+            <div class="alert alert-warning">{{ $mensaje }}</div>
+        @endif
     </div>
 
 @stop
