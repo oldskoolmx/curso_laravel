@@ -36,6 +36,9 @@ Route::get('desactivaempleado/{ide}',[EmpleadosController::class,'desactivaemple
 Route::get('activarempleado/{ide}',[EmpleadosController::class,'activarempleado'])->name('activarempleado');
 Route::get('borrarempleado/{ide}',[EmpleadosController::class,'borrarempleado'])->name('borrarempleado');
 
+Route::get('modificaempleado/{ide}',[EmpleadosController::class,'modificaempleado'])->name('modificaempleado');
+Route::post('guardacambios',[EmpleadosController::class,'guardacambios'])->name('guardacambios');
+
 
 Route::get('/', function () {
     return view('welcome');

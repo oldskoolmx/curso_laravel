@@ -12,6 +12,50 @@ class EmpleadosController extends Controller
     //
 
         // mandamos el $ide a desactivar o borrar
+    public function modificaempleado($ide){
+
+
+        $consulta = empleados::withTrashed()->join('departamentos','empleados.idd','=','departamentos.idd')
+        ->select('empleados.ide','empleados.nombre','empleados.apellido','departamentos.nombre as depa',
+        'empleados.email','empleados.idd','empleados.descripcion','empleados.celular','empleados.sexo')
+       ->where('ide',$ide)
+         ->get();
+         $departamentos = departamentos::all();
+        return view('modificaempleado')
+        //se le pone forzosamente [0] para que solo regrese un registro
+        ->with('consulta',$consulta[0])
+        // mandamos tambien con la vista todos los departamentos para el select
+        ->with('departamentos',$departamentos);
+
+
+    }
+    public function guardacambios(Request $request){
+
+        $this->validate($request,[
+
+            'nombre' => 'required|regex:/^[A-Z][A-Z,a-z, ,á,é,í,ó,ú,ü]+$/',
+            'apellido' => 'required|regex:/^[A-Z][A-Z,a-z, ,á,é,í,ó,ú,ü]+$/',
+            'email' => 'required|email',
+            'celular' => 'required|regex:/^[0-9]{10}$/'
+        ]);
+
+        $empleados = empleados::find($request->ide);
+        $empleados->ide=$request->ide;
+        $empleados->nombre=$request->nombre;
+        $empleados->apellido=$request->apellido;
+        $empleados->email=$request->email;
+        $empleados->celular=$request->celular;
+        $empleados->sexo=$request->sexo;
+        $empleados->descripcion=$request->descripcion;
+        $empleados->idd=$request->idd;
+        $empleados->save();
+
+        return view('mensajes')
+        ->with('proceso',"ALTA DE EMPLEADOS")
+        ->with('mensaje',"El empleado $request->ide $request->nombre $request->apellido ha sido dado modificado correctamente")
+        ->with('error',1);
+    }
+
     public function desactivaempleado($ide){
 
         $empleados = empleados::find($ide);
