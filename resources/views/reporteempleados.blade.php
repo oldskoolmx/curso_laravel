@@ -12,6 +12,9 @@
 
         <br>
         <br>
+        @if (Session::has('mensaje'))
+            <div class="alert alert-success">{{ Session::get('mensaje') }}</div>
+        @endif
         <table class="table">
             <thead class="thead-light">
                 <tr>
