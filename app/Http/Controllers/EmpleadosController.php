@@ -7,6 +7,8 @@ use App\Models\empleados;
 use App\Models\departamentos;
 use App\Models\nominas;
 use Session;
+//use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage;
 
 class EmpleadosController extends Controller
 {
@@ -134,7 +136,7 @@ class EmpleadosController extends Controller
 
         $consulta = empleados::withTrashed()->join('departamentos','empleados.idd','=','departamentos.idd')
                 ->select('empleados.ide','empleados.nombre','empleados.apellido','departamentos.nombre as depa',
-                'empleados.email','empleados.deleted_at')
+                'empleados.email','empleados.deleted_at','empleados.img')
                 ->orderBy('empleados.nombre')
                  ->get();
         return view('reporteempleados')->with('consulta',$consulta);
@@ -190,8 +192,23 @@ class EmpleadosController extends Controller
             //'apellido' => 'required|regex:/^[0-9]*[.][0-9]{2}$/',
             'apellido' => 'required|regex:/^[A-Z][A-Z,a-z, ,á,é,í,ó,ú,ü]+$/',
             'email' => 'required|email',
-            'celular' => 'required|regex:/^[0-9]{10}$/'
+            'celular' => 'required|regex:/^[0-9]{10}$/',
+            //agregar la validacion para subir solo estos tipos de archivos
+            'img' => 'image|mimes:gif,jpg,png'
         ]);
+
+
+        $file = $request->file('img');
+        // creamos la validacion por si el usuario no ingresa una foto, en automatico el sistema registre la foto llamada sinfoto.png
+        if($file<>"") {
+        // esta instruccion es para obtener la ruta original del archivo
+        $img = $file->getClientOriginalName();
+        // si dos usuarios suben la misma imagen con el mismo nombre hacemos esto para evitar que se reemplacen
+        $img2 = $request->ide . $img;
+        \Storage::disk('local')->put($img2,\File::get($file));
+        } else {
+            $img2 = "sinfoto.png";
+        }
 
         $empleados = new empleados;
         $empleados->ide=$request->ide;
@@ -202,6 +219,8 @@ class EmpleadosController extends Controller
         $empleados->sexo=$request->sexo;
         $empleados->descripcion=$request->descripcion;
         $empleados->idd=$request->idd;
+        // guardamos el nombre de la ruta
+        $empleados->img = $img2;
         $empleados->save();
 
        /* return view('mensajes')

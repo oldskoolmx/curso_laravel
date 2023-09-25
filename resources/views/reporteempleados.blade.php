@@ -18,6 +18,7 @@
         <table class="table">
             <thead class="thead-light">
                 <tr>
+                    <th scope="col">Foto</th>
                     <th scope="col">Clave</th>
                     <th scope="col">Nombre Completo</th>
                     <th scope="col">Correo</th>
@@ -28,6 +29,7 @@
             <tbody>
                 @foreach ($consulta as $c)
                     <tr>
+                        <td><img src="{{ asset('archivos/' . $c->img) }}" height="50" width="50"></td>
                         <th scope="row">{{ $c->ide }}</th>
                         <td>{{ $c->nombre }} {{ $c->apellido }}</td>
                         <td>{{ $c->email }}</td>

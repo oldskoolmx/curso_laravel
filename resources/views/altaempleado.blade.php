@@ -4,7 +4,8 @@
     <div class="container">
         <h1>Alta de empleado</h1>
         <hr>
-        <form action="{{ route('guardarempleado') }}" method="POST">
+        {{-- para agregar archivos al formulario hay que agregar enctype = 'multipart' --}}
+        <form action="{{ route('guardarempleado') }}" method="POST" enctype='multipart/form-data'>
 
             {{ csrf_field() }} {{-- hay que agregar un token, todos los formularios deben de llevarlo --}}
 
@@ -109,6 +110,15 @@
                     <textarea name="descripcion" id="descripcion" class="form-control" tabindex="5">
             </textarea>
                 </div>
+                <div class="form-group">
+                    <label for="dni">Foto de Perfil:</label>
+                    @if ($errors->first('img'))
+                        <p class="text-danger">{{ $errors->first('img') }}</p>
+                    @endif
+                    <input type='file' name="img" id="img" class="form-control" tabindex="6">
+                    </input>
+                </div>
+                <br>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"><input type="submit" value="Guardar"
                             class="btn btn-danger btn-block btn-lg" tabindex="7" title="Guardar datos ingresados">
