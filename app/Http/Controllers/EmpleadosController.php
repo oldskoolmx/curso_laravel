@@ -20,7 +20,7 @@ class EmpleadosController extends Controller
 
         $consulta = empleados::withTrashed()->join('departamentos','empleados.idd','=','departamentos.idd')
         ->select('empleados.ide','empleados.nombre','empleados.apellido','departamentos.nombre as depa',
-        'empleados.email','empleados.idd','empleados.descripcion','empleados.celular','empleados.sexo')
+        'empleados.email','empleados.idd','empleados.descripcion','empleados.celular','empleados.sexo','empleados.img')
        ->where('ide',$ide)
          ->get();
          $departamentos = departamentos::all();
@@ -39,8 +39,19 @@ class EmpleadosController extends Controller
             'nombre' => 'required|regex:/^[A-Z][A-Z,a-z, ,á,é,í,ó,ú,ü]+$/',
             'apellido' => 'required|regex:/^[A-Z][A-Z,a-z, ,á,é,í,ó,ú,ü]+$/',
             'email' => 'required|email',
-            'celular' => 'required|regex:/^[0-9]{10}$/'
+            'celular' => 'required|regex:/^[0-9]{10}$/',
+            'img' => 'image|mimes:gif,jpg,png'
         ]);
+
+        $file = $request->file('img');
+        // creamos la validacion por si el usuario no ingresa una foto, en automatico el sistema registre la foto llamada sinfoto.png
+        if($file<>"") {
+        // esta instruccion es para obtener la ruta original del archivo
+        $img = $file->getClientOriginalName();
+        // si dos usuarios suben la misma imagen con el mismo nombre hacemos esto para evitar que se reemplacen
+        $img2 = $request->ide . $img;
+        \Storage::disk('local')->put($img2,\File::get($file));
+        }
 
         $empleados = empleados::withTrashed()->find($request->ide);
         $empleados->ide=$request->ide;
@@ -50,6 +61,10 @@ class EmpleadosController extends Controller
         $empleados->celular=$request->celular;
         $empleados->sexo=$request->sexo;
         $empleados->descripcion=$request->descripcion;
+        // si el usuario no selecciona una foto, que no actualice el nombre
+        if($file<>"") {
+            $empleados->img = $img2;
+        }
         $empleados->idd=$request->idd;
         $empleados->save();
 

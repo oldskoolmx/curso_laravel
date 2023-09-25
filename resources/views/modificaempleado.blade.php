@@ -5,7 +5,7 @@
         <h1>Modifica de empleado</h1>
         <hr>
         {{-- ruta para enviar el formulario --}}
-        <form action="{{ route('guardacambios') }}" method="POST">
+        <form action="{{ route('guardacambios') }}" method="POST" enctype="multipart/form-data">
 
             {{ csrf_field() }} {{-- hay que agregar un token, todos los formularios deben de llevarlo --}}
 
@@ -124,6 +124,15 @@
                         {{ $consulta->descripcion }}
             </textarea>
                 </div>
+                <div class="form-group">
+                    <label for="dni">Foto de Perfil:</label>
+                    <img src="{{ asset('archivos/' . $consulta->img) }}" height="150" width="150">
+                    @if ($errors->first('img'))
+                        <p class="text-danger">{{ $errors->first('img') }}</p>
+                    @endif
+                    <input type='file' name="img" id="img" class="form-control" tabindex="6">
+                    </input>
+                </div><br>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"><input type="submit" value="Guardar"
                             class="btn btn-danger btn-block btn-lg" tabindex="7" title="Guardar datos ingresados">
