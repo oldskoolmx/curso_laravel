@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadosController;
+use App\Http\Controllers\LoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +14,12 @@ use App\Http\Controllers\EmpleadosController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('login',[LoginController::class,'login'])->name('login');
+Route::post('validar',[LoginController::class,'validar'])->name('validar');
+Route::get('principal',[LoginController::class,'principal'])->name('principal');
+// Route::get('cerrarsesion',[LoginController::class,'cerrarsesion'])->name('cerrarsesion');
+
+
 Route::get('mensaje',[EmpleadosController::class,'mensaje']);
 Route::get('controlpago',[EmpleadosController::class,'pago']);
 Route::get('nomina/{diast}/{pago}',[EmpleadosController::class,'nomina']);
