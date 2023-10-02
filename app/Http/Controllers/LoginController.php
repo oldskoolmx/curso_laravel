@@ -26,7 +26,18 @@ class LoginController extends Controller
     public function principal()
     {
         //
-        return view('vistaboostrap');
+
+
+        $sessionidu = session('sessionidu');
+        if($sessionidu<>""){
+
+            return view('vistaboostrap');
+        } else {
+            Session::flash('mensaje',"Logearser antes de continuar");
+            return redirect()->route('login');
+        }
+
+
     }
 
     public function validar(Request $request){
@@ -51,6 +62,9 @@ class LoginController extends Controller
          //if($cuantos==1 and hash::check($request->pasw,$consulta[0]->pasw)) {
          if($cuantos >= 1 and hash::check($request->pasw,$consulta[0]->pasw)) {
             // si coinciden todas la validaciones los mande a la vista principal
+            Session::put('sessionusuario',$consulta[0]->nombre.' '.$consulta[0]->apellido);
+            Session::put('sessiontipo',$consulta[0]->tipo);
+            Session::put('sessionidu',$consulta[0]->idu);
             return  redirect()->route('principal');
         }
         else {

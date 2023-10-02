@@ -147,15 +147,25 @@ class EmpleadosController extends Controller
                 'empleados.email')
                 ->orderBy('empleados.nombre')
                  ->get(); */
+        // para proteger una ruta con la session
 
+        $sessionidu = session('sessionidu');
+        $sessiontipo = session('sessiontipo');
+        if($sessionidu<>"" and $sessiontipo<>""){
 
         $consulta = empleados::withTrashed()->join('departamentos','empleados.idd','=','departamentos.idd')
                 ->select('empleados.ide','empleados.nombre','empleados.apellido','departamentos.nombre as depa',
                 'empleados.email','empleados.deleted_at','empleados.img')
                 ->orderBy('empleados.nombre')
                  ->get();
-        return view('reporteempleados')->with('consulta',$consulta);
+        return view('reporteempleados')->with('consulta',$consulta)
+        ->with('sessiontipo',$sessiontipo);
+    } else {
+        # code. ..
+        Session::flash('mensaje',"Logearse antes de continuar");
+        return  redirect()->route('login');
     }
+}
 
     public function altaempleado(){
 

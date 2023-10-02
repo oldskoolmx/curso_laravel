@@ -1,3 +1,10 @@
+<?php
+
+$sessionusuario = session('sessionusuario');
+$sessiontipo = session('sessiontipo');
+$sessionidu = session('sessionidu');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +19,7 @@
 
 <body>
     <h1>Sistema de Control de Nomina</h1>
+    <b> Bienvenido <?php echo $sessionusuario; ?></b>
 
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -28,10 +36,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
+                        <a class="nav-link" href="{{ route('reporteempleados') }}">Gestion Empleados</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
+                        <a class="nav-link" href="#">Cerrar Sesion</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>

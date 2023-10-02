@@ -38,18 +38,21 @@
                             <a href="{{ route('modificaempleado', ['ide' => $c->ide]) }}">
                                 <button type="button" class="btn btn-info">Modificar</button>
                             </a>
-                            {{-- creamos una condicion para activar los registros borrados logicamente  anteriormente --}}
-                            @if ($c->deleted_at)
-                                <a href="{{ route('activarempleado', ['ide' => $c->ide]) }}">
-                                    <button type="button" class="btn btn-warning">Activar</button>
-                                </a>
-                                <a href="{{ route('borrarempleado', ['ide' => $c->ide]) }}">
-                                    <button type="button" class="btn btn-secondary">Borrar</button>
-                                </a>
-                            @else
-                                <a href="{{ route('desactivaempleado', ['ide' => $c->ide]) }}">
-                                    <button type="button" class="btn btn-danger">Desactivar</button>
-                                </a>
+                            {{-- checo si el usuario es admin para que me aparezcan estas opciones  --}}
+                            @if ($sessiontipo == 'admin')
+                                {{-- creamos una condicion para activar los registros borrados logicamente  anteriormente --}}
+                                @if ($c->deleted_at)
+                                    <a href="{{ route('activarempleado', ['ide' => $c->ide]) }}">
+                                        <button type="button" class="btn btn-warning">Activar</button>
+                                    </a>
+                                    <a href="{{ route('borrarempleado', ['ide' => $c->ide]) }}">
+                                        <button type="button" class="btn btn-secondary">Borrar</button>
+                                    </a>
+                                @else
+                                    <a href="{{ route('desactivaempleado', ['ide' => $c->ide]) }}">
+                                        <button type="button" class="btn btn-danger">Desactivar</button>
+                                    </a>
+                                @endif
                             @endif
                         </td>
                     </tr>
