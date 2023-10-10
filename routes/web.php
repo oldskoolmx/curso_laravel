@@ -14,38 +14,39 @@ use App\Http\Controllers\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('login',[LoginController::class,'login'])->name('login');
-Route::post('validar',[LoginController::class,'validar'])->name('validar');
-Route::get('principal',[LoginController::class,'principal'])->name('principal');
-// Route::get('cerrarsesion',[LoginController::class,'cerrarsesion'])->name('cerrarsesion');
+
+Route::get('login', [LoginController::class, 'login'])->name('login');
+Route::post('validar', [LoginController::class, 'validar'])->name('validar');
+Route::get('principal', [LoginController::class, 'principal'])->name('principal');
+Route::get('cerrarsesion', [LoginController::class, 'cerrarsesion'])->name('cerrarsesion');
 
 
-Route::get('mensaje',[EmpleadosController::class,'mensaje']);
-Route::get('controlpago',[EmpleadosController::class,'pago']);
-Route::get('nomina/{diast}/{pago}',[EmpleadosController::class,'nomina']);
+Route::get('mensaje', [EmpleadosController::class, 'mensaje']);
+Route::get('controlpago', [EmpleadosController::class, 'pago']);
+Route::get('nomina/{diast}/{pago}', [EmpleadosController::class, 'nomina']);
 
 
 // enviar variables a nuestra vista
-Route::get('muestrasaludo/{nombre}/{dias}',[EmpleadosController::class,'saludo']);
+Route::get('muestrasaludo/{nombre}/{dias}', [EmpleadosController::class, 'saludo']);
 // le puese el nombre de salir para que lo detecte la vista
-Route::get('salir',[EmpleadosController::class,'salir'])->name('salir');
+Route::get('salir', [EmpleadosController::class, 'salir'])->name('salir');
 
-Route::get('vb',[EmpleadosController::class,'vb'])->name('vb');
-Route::get('vista1',[EmpleadosController::class,'vista1'])->name('vista1');
-Route::get('vista2',[EmpleadosController::class,'vista2'])->name('vista2');
+Route::get('vb', [EmpleadosController::class, 'vb'])->name('vb');
+Route::get('vista1', [EmpleadosController::class, 'vista1'])->name('vista1');
+Route::get('vista2', [EmpleadosController::class, 'vista2'])->name('vista2');
 
-Route::get('altaempleado',[EmpleadosController::class,'altaempleado'])->name('altaempleado');
-Route::post('guardarempleado',[EmpleadosController::class,'guardarempleado'])->name('guardarempleado');
+Route::get('altaempleado', [EmpleadosController::class, 'altaempleado'])->name('altaempleado');
+Route::post('guardarempleado', [EmpleadosController::class, 'guardarempleado'])->name('guardarempleado');
 
-Route::get('eloquent',[EmpleadosController::class,'eloquent'])->name('eloquent');
-Route::get('reporteempleados',[EmpleadosController::class,'reporteempleados'])->name('reporteempleados');
+Route::get('eloquent', [EmpleadosController::class, 'eloquent'])->name('eloquent');
+Route::get('reporteempleados', [EmpleadosController::class, 'reporteempleados'])->name('reporteempleados');
 
-Route::get('desactivaempleado/{ide}',[EmpleadosController::class,'desactivaempleado'])->name('desactivaempleado');
-Route::get('activarempleado/{ide}',[EmpleadosController::class,'activarempleado'])->name('activarempleado');
-Route::get('borrarempleado/{ide}',[EmpleadosController::class,'borrarempleado'])->name('borrarempleado');
+Route::get('desactivaempleado/{ide}', [EmpleadosController::class, 'desactivaempleado'])->name('desactivaempleado');
+Route::get('activarempleado/{ide}', [EmpleadosController::class, 'activarempleado'])->name('activarempleado');
+Route::get('borrarempleado/{ide}', [EmpleadosController::class, 'borrarempleado'])->name('borrarempleado');
 
-Route::get('modificaempleado/{ide}',[EmpleadosController::class,'modificaempleado'])->name('modificaempleado');
-Route::post('guardacambios',[EmpleadosController::class,'guardacambios'])->name('guardacambios');
+Route::get('modificaempleado/{ide}', [EmpleadosController::class, 'modificaempleado'])->name('modificaempleado');
+Route::post('guardacambios', [EmpleadosController::class, 'guardacambios'])->name('guardacambios');
 
 
 Route::get('/', function () {
@@ -65,14 +66,14 @@ Route::get('/arearectangulo1', function () {
     $base = 4;
     $altura = 10;
     $area = $base * $altura;
-    return "El area del rectangulo es: ".$area. " con base: $base y altura: $altura";
+    return "El area del rectangulo es: " . $area . " con base: $base y altura: $altura";
 });
-Route::get('/arearectangulo2/{base}/{altura}', function ($base,$altura) {
+Route::get('/arearectangulo2/{base}/{altura}', function ($base, $altura) {
 
     $area = $base * $altura;
-    return "El area del rectangulo es: ".$area. " con base: $base y altura: $altura";
+    return "El area del rectangulo es: " . $area . " con base: $base y altura: $altura";
 });
-                            // si pongo un signo de interrogacion quiere decir que no son obligatorias los valores, como ejemplo pagodiario?
+// si pongo un signo de interrogacion quiere decir que no son obligatorias los valores, como ejemplo pagodiario?
 /* Route::get('/nomina/{diast}/{pagodiario?}', function ($diast,$pagodiario=null) {
     if($pagodiario==null){
 
@@ -94,14 +95,14 @@ Route::get('/redireccionamiento', function () {
     return redirect('ruta1');
 });
 
-Route::redirect('redireccionamiento2','ruta1');
-Route::redirect('redireccionamiento3','arearectangulo2/5/6');
+Route::redirect('redireccionamiento2', 'ruta1');
+Route::redirect('redireccionamiento3', 'arearectangulo2/5/6');
 
 
-Route::get('/redireccionamiento4/{base}/{altura}', function ($base,$altura) {
+Route::get('/redireccionamiento4/{base}/{altura}', function ($base, $altura) {
 
 
     return redirect("arearectangulo2/$base/$altura");
 });
 
-Route::redirect('redireccionamiento5','https://www.google.com');
+Route::redirect('redireccionamiento5', 'https://www.google.com');

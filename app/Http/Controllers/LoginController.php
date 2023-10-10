@@ -23,52 +23,60 @@ class LoginController extends Controller
         //
         return view('login');
     }
+
+    public function cerrarsesion()
+    {
+        Session::forget('sessionusuario');
+        Session::forget('sessiontipo');
+        Session::forget('sessionidu');
+        Session::flush();
+        Session::flash('mensaje', "Sesion cerrada correctamente");
+        return redirect()->route('login');
+    }
     public function principal()
     {
         //
 
 
         $sessionidu = session('sessionidu');
-        if($sessionidu<>""){
+        if ($sessionidu <> "") {
 
             return view('vistaboostrap');
         } else {
-            Session::flash('mensaje',"Logearser antes de continuar");
+            Session::flash('mensaje', "Logearser antes de continuar");
             return redirect()->route('login');
         }
-
-
     }
 
-    public function validar(Request $request){
-        $this->validate($request,[
+    public function validar(Request $request)
+    {
+        $this->validate($request, [
 
             'usuario' => 'required',
             'pasw' => 'required'
 
         ]);
 
-         //$paswordEncriptado = Hash::make($request->pasw);
+        //$paswordEncriptado = Hash::make($request->pasw);
         //echo $paswordEncriptado;
 
-         $consulta = usuarios::where('user',$request->usuario)
-        ->where('activo','si')
-        ->get();
+        $consulta = usuarios::where('user', $request->usuario)
+            ->where('activo', 'si')
+            ->get();
 
         $cuantos = count($consulta);
 
         //echo $cuantos;
-                                        // checa que lo que el usuario teclea con lo que esta registrado en la BD
-         //if($cuantos==1 and hash::check($request->pasw,$consulta[0]->pasw)) {
-         if($cuantos >= 1 and hash::check($request->pasw,$consulta[0]->pasw)) {
+        // checa que lo que el usuario teclea con lo que esta registrado en la BD
+        //if($cuantos==1 and hash::check($request->pasw,$consulta[0]->pasw)) {
+        if ($cuantos >= 1 and hash::check($request->pasw, $consulta[0]->pasw)) {
             // si coinciden todas la validaciones los mande a la vista principal
-            Session::put('sessionusuario',$consulta[0]->nombre.' '.$consulta[0]->apellido);
-            Session::put('sessiontipo',$consulta[0]->tipo);
-            Session::put('sessionidu',$consulta[0]->idu);
+            Session::put('sessionusuario', $consulta[0]->nombre . ' ' . $consulta[0]->apellido);
+            Session::put('sessiontipo', $consulta[0]->tipo);
+            Session::put('sessionidu', $consulta[0]->idu);
             return  redirect()->route('principal');
-        }
-        else {
-            Session::flash('mensaje',"El usuario o password no son validos");
+        } else {
+            Session::flash('mensaje', "El usuario o password no son validos");
             return  redirect()->route('login');
         }
     }

@@ -39,7 +39,7 @@ $sessionidu = session('sessionidu');
                         <a class="nav-link" href="{{ route('reporteempleados') }}">Gestion Empleados</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar Sesion</a>
+                        <a class="nav-link" href="{{ route('cerrarsesion') }}">Cerrar Sesion</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
